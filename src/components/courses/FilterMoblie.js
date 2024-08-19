@@ -55,7 +55,7 @@ const citiesWithDistricts = {
 export default function FilterMobile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
-  // s
+  //
   const closeFilterModal = () => {
     setIsModalOpen(false);
     setFormatFilter("");
