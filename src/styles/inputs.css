@@ -96,3 +96,47 @@
     box-sizing: border-box; 
     width: 70px;
   }
+
+  .input_default_border {
+    border: 1px solid #E6E6E6;
+    height: 40px;
+    display: flex;
+    border-radius: 90px;
+    position: relative;
+    margin-top: 16px;
+    display: "flex";
+    flex-direction: "column";
+    align-items: center;
+    justify-content: center;
+    /* transition: border-color 0.3s ease;  */
+
+  }
+
+  .input_default_border:hover {
+    border-color: #C2C2C2; /* Цвет границы при наведении */
+    /* border: 2px; */
+  }
+  .input_default {
+    font-size: 16px;
+    width: 70%;
+    border: none;
+    height: 100%;
+    border: none;
+    outline: none;
+    color: #757575;
+    position: relative;
+    box-sizing: border-box; 
+    text-align: center; /* Центрирование текста, включая placeholder */
+
+  }
+
+  .input_default:focus,
+  .input_default:not(:placeholder-shown) {
+    text-align: left;
+  }
+
+
+  /* .city-list-item.hovered {
+    background-color: #E9E9E9;
+    border-radius: 8px;
+  } */

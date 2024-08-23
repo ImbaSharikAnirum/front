@@ -258,11 +258,6 @@ export default function FilterMobile() {
     filterState.district ||
     filterState.direction;
 
-  // const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-
-  // const openFilterGroupModal = () => setFilterGroupMobile(true);
-
-  // const closeFilterGroupModal = () => setFilterGroupMobile(false);
 
   return (
     <div style={{ width: "100vw", padding: "16px 24px" }}>

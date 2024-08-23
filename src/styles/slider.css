@@ -17,7 +17,9 @@
   border-radius: 8px;
   z-index: 0;
   display: flex;
-  border: 1px solid #EBEBEB;
+  /* border: 1px solid #EBEBEB; */
+  box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent, 0 0 0 0.5px #E0E0E0;
+  border: "none";
 }
 
 .slide-image-container {

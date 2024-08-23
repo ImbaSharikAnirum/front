@@ -14,7 +14,6 @@ const transformDataFromAPI = (data) => {
         attributes.teacher?.data?.attributes?.photo?.data?.attributes?.url ||
         "",
     };
-
     return {
       id: item.id,
       direction: attributes.direction,

@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import "../styles/footerMenu.css";
 import { ReactComponent as Vector } from "../images/Vector.svg";
 import { ReactComponent as User } from "../images/user.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   hideFooterMenu,
   showFooterMenu,
   resetFilters,
   triggerSearch,
-} from "../redux/footerMenuSlice"; // Adjust the import path as needed
+} from "../redux/footerMenuSlice";
 import { ReactComponent as Search } from "../images/search.svg";
+import { selectCurrentCourse } from "../redux/reducers/courseReducer";
+import moment from "moment";
+import "moment/locale/ru";
 
 const FooterMenu = () => {
   const dispatch = useDispatch();
@@ -21,33 +24,37 @@ const FooterMenu = () => {
   const isFilterMobile = useSelector(
     (state) => state.footerMenu.isFilterMobile
   );
-
+  const course = useSelector(selectCurrentCourse);
+  const nextMonth = moment().add(1, "months").format("MMMM"); // Следующий месяц
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const scrollDownThreshold = 15;
   const scrollUpThreshold = 10;
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollTop = window.scrollY;
 
-      if (
-        currentScrollTop > lastScrollTop &&
-        currentScrollTop - lastScrollTop > scrollDownThreshold
-      ) {
-        dispatch(hideFooterMenu());
-      } else if (
-        currentScrollTop < lastScrollTop &&
-        lastScrollTop - currentScrollTop > scrollUpThreshold
-      ) {
-        dispatch(showFooterMenu());
-      }
+      if (location.pathname === "/") {
+        if (
+          currentScrollTop > lastScrollTop &&
+          currentScrollTop - lastScrollTop > scrollDownThreshold
+        ) {
+          dispatch(hideFooterMenu());
+        } else if (
+          currentScrollTop < lastScrollTop &&
+          lastScrollTop - currentScrollTop > scrollUpThreshold
+        ) {
+          dispatch(showFooterMenu());
+        }
 
-      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
+        setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollTop, dispatch]);
+  }, [lastScrollTop, dispatch, location.pathname]);
 
   const handleReset = () => {
     dispatch(resetFilters());
@@ -56,15 +63,60 @@ const FooterMenu = () => {
   const handleSearch = () => {
     dispatch(triggerSearch());
   };
+
   return (
     <>
       {!isFilterGroupMobile && (
         <div
-          className={`footer-menu 
-        ${isVisible ? "visible" : ""}   ${!isFilterMobile && "visible"}  
-    `}
+          className={`footer-menu ${isVisible ? "visible" : ""} ${
+            !isFilterMobile && "visible"
+          }`}
         >
-          {!isFilterMobile ? (
+          {course.id ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div className="Body-3" style={{ fontSize: "16px" }}>
+                    {course.price_lesson} р
+                  </div>
+                  <div
+                    className="Body-2"
+                    style={{ fontSize: "16px", marginLeft: "4px" }}
+                  >
+                    за занятие
+                  </div>
+                </div>
+
+                <div
+                  className="Body-1"
+                  style={{
+                    color: "#5F5F5F",
+                    textDecoration: "underline",
+                    fontSize: "14px",
+                    marginTop: "4px",
+                  }}
+                >
+                  {nextMonth}
+                </div>
+              </div>
+              <button className="button Body-3 button-animate-filter">
+                Забронировать
+              </button>
+            </div>
+          ) : !isFilterMobile ? (
             <div
               style={{
                 display: "flex",
@@ -80,7 +132,6 @@ const FooterMenu = () => {
               >
                 Сбросить всё
               </div>
-
               <button
                 className="button Body-3 button-animate-filter"
                 style={{
@@ -88,7 +139,7 @@ const FooterMenu = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                 }}
-                onClick={handleSearch} // Обработчик клика на "Искать"
+                onClick={handleSearch}
               >
                 <Search
                   style={{

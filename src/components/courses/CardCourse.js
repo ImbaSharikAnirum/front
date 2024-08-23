@@ -103,7 +103,7 @@ const CardCourse = ({ course }) => {
           <div style={{ display: "flex", gap: "8px" }}>
             <div style={{ height: "35px", width: "35px" }}>
               <img
-                src={`http://localhost:1337${course.teacher.photo}`}
+                src={`${course.teacher.photo}`}
                 alt="Аватар"
                 style={{
                   width: "100%",

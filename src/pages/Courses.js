@@ -60,9 +60,7 @@ export default function Courses() {
   };
 
   return (
-    <div>
-      {/* Filters */}
-
+    <div className="padding">
       <div className="filters">
         <div className="desktop courses_filters">
           <DirectionFilter loading={loading} />
