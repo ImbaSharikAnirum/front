@@ -74,7 +74,7 @@ export default function Courses() {
         <div className="courses_filters">
           <FilterGroup loading={loading} />
         </div>
-        <Link
+        {/* <Link
           to="/create/course"
           className="button_only_icon"
           style={{
@@ -83,7 +83,7 @@ export default function Courses() {
           }}
         >
           <Create />
-        </Link>
+        </Link> */}
       </div>
       <div className="filters_mobile">
         <FilterMoblie />
