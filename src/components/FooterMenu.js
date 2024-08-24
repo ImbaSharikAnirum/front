@@ -14,6 +14,7 @@ import { ReactComponent as Search } from "../images/search.svg";
 import { selectCurrentCourse } from "../redux/reducers/courseReducer";
 import moment from "moment";
 import "moment/locale/ru";
+import { Link } from "react-router-dom";
 
 const FooterMenu = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ const FooterMenu = () => {
   const scrollDownThreshold = 15;
   const scrollUpThreshold = 10;
   const location = useLocation();
+  useEffect(() => {
+    // Открываем меню при изменении страницы
+    dispatch(showFooterMenu());
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -112,9 +117,19 @@ const FooterMenu = () => {
                   {nextMonth}
                 </div>
               </div>
-              <button className="button Body-3 button-animate-filter">
-                Забронировать
-              </button>
+              <Link
+                to="https://api.whatsapp.com/send/?phone=77473628471&text&type=phone_number&app_absent=0"
+                style={{
+                  textDecoration: "none",
+                  // color: "black",
+                  // width: "100%",
+                  // marginTop: "16px",
+                }}
+              >
+                <button className="button Body-3 button-animate-filter">
+                  Забронировать
+                </button>
+              </Link>
             </div>
           ) : !isFilterMobile ? (
             <div

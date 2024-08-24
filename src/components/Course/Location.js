@@ -15,10 +15,9 @@ export default function Location() {
     lat: -3.745,
     lng: -38.523,
   };
-  const keyGoogle = process.env.googleMapsApiKey;
   const { isLoaded } = useJsApiLoader({
     id: "anirum",
-    googleMapsApiKey: keyGoogle,
+    googleMapsApiKey: "AIzaSyBG3-McnhGanJsLu8AzA2TyXmdA4Ea6sSc",
   });
 
   const [map, setMap] = useState(null);

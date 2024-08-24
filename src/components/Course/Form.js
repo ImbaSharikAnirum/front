@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentCourse } from "../../redux/reducers/courseReducer";
 import moment from "moment";
 import "moment/locale/ru";
+import { Link } from "react-router-dom";
 
 export default function Form() {
   const theme = useTheme();
@@ -266,12 +267,22 @@ export default function Form() {
                 </div>
               )}
             </div>
-            <button
-              className="button Body-3 button-animate-filter"
-              style={{ marginTop: "16px" }}
+            <Link
+              to="https://api.whatsapp.com/send/?phone=77473628471&text&type=phone_number&app_absent=0"
+              style={{
+                textDecoration: "none",
+                // color: "black",
+                width: "100%",
+                marginTop: "16px",
+              }}
             >
-              Забронировать
-            </button>
+              <button
+                className="button Body-3 button-animate-filter"
+                style={{ width: "100%" }}
+              >
+                Забронировать
+              </button>
+            </Link>
             <div
               className="Body-2"
               style={{
