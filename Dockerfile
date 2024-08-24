@@ -1,29 +1,21 @@
-# Используем официальный Node.js образ как базовый
-FROM node:18 AS build
+# base node image
+FROM node:lts AS runtime
 
-# Устанавливаем рабочую директорию
+# Install pnpm
+RUN npm i -g pnpm
+
+# Create app directory
 WORKDIR /app
 
-# Копируем package.json и package-lock.json
-COPY package*.json ./
-
-# Устанавливаем зависимости
-RUN npm install
-
-# Копируем весь проект
+# Install dependencies
 COPY . .
+RUN pnpm i
 
-# Выполняем сборку проекта
-RUN npm run build
+# Build the app
+RUN pnpm build
 
-# Используем официальный Nginx образ для обслуживания статических файлов
-FROM nginx:alpine
-
-# Копируем сборку из предыдущего этапа
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Экспонируем порт
-EXPOSE 80
-
-# Запускаем Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Serve the app
+ENV HOST=0.0.0.0
+ENV PORT=4321
+EXPOSE 4321
+CMD node ./dist/server/entry.mjs
