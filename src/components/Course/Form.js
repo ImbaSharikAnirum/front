@@ -7,13 +7,14 @@ import { useSelector } from "react-redux";
 import { selectCurrentCourse } from "../../redux/reducers/courseReducer";
 import moment from "moment";
 import "moment/locale/ru";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function Form() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [scrollTop, setScrollTop] = useState(0);
   const course = useSelector(selectCurrentCourse);
+  const { id } = useParams();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -128,7 +129,13 @@ export default function Form() {
 
     return sessionCount;
   };
-
+  const englishMonth = moment(months[0], "MMMM YYYY")
+    .locale("en")
+    .format("MMMM YYYY");
+  const selectedenglishMonth = selectedMonth
+    ? moment(selectedMonth, "MMMM YYYY").locale("en").format("MMMM YYYY")
+    : null;
+  const linkMonth = selectedenglishMonth ? selectedenglishMonth : englishMonth;
   return (
     <div>
       {!isMobile && (
@@ -268,7 +275,7 @@ export default function Form() {
               )}
             </div>
             <Link
-              to="https://api.whatsapp.com/send/?phone=77473628471&text&type=phone_number&app_absent=0"
+              to={`/booking/${id}/${linkMonth}`}
               style={{
                 textDecoration: "none",
                 // color: "black",
