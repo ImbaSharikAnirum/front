@@ -7,9 +7,6 @@ RUN npm install -g pnpm
 # Создаем рабочую директорию
 WORKDIR /app
 
-# Копируем файлы для установки зависимостей
-COPY package.json pnpm-lock.yaml ./
-
 # Устанавливаем зависимости
 RUN pnpm install
 
@@ -19,14 +16,8 @@ COPY . .
 # Собираем приложение
 RUN pnpm build
 
-# Используем другой образ для запуска
-FROM node:lts AS runtime
-
 # Создаем рабочую директорию
 WORKDIR /app
-
-# Копируем собранное приложение из предыдущего этапа
-COPY --from=build /app/build ./build
 
 # Устанавливаем переменные окружения
 ENV HOST=0.0.0.0
