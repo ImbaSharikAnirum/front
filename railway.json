@@ -1,9 +1,0 @@
-{
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "deploy": {
-    "image": "front:latest",
-    "port": 80
-  }
-}
