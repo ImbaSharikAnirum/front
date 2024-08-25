@@ -1,21 +1,23 @@
-# base node image
-FROM node:lts AS runtime
+# Используем официальный образ Node.js в качестве базового
+FROM node:18-alpine
 
-# Install pnpm
-RUN npm i -g pnpm
-
-# Create app directory
+# Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
 
-# Install dependencies
+# Копируем файл package.json и package-lock.json в рабочую директорию
+COPY package*.json ./
+
+# Устанавливаем зависимости
+RUN npm install --production
+
+# Копируем остальные файлы и директории в рабочую директорию
 COPY . .
-RUN pnpm i
 
-# Build the app
-RUN pnpm build
+# Собираем приложение
+RUN npm run build
 
-# Serve the app
-ENV HOST=0.0.0.0
-ENV PORT=4321
-EXPOSE 4321
-CMD node ./dist/server/entry.mjs
+# Указываем порт, на котором будет работать приложение
+EXPOSE 3000
+
+# Запускаем приложение
+CMD ["npx", "serve", "-s", "build"]

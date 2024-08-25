@@ -1,6 +1,6 @@
-const API = "https://strapi-production-f503.up.railway.app/api";
-const SITE = "https://strapi-production-f503.up.railway.app";
-const DOMAIN = "https://www.anirum.com";
+const API = "http://localhost:1337/api";
+const SITE = "http://localhost:1337";
+const DOMAIN = "http://localhost:3000";
 
 const ROLE = {
   AUTH: 1,
