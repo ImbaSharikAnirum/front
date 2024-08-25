@@ -4,8 +4,8 @@ FROM node:lts AS build
 # Создаем рабочую директорию
 WORKDIR /app
 
-# Копируем package.json и package-lock.json
-COPY package*.json ./
+# Копируем package.json и package-lock.json (если есть)
+COPY package.json package-lock.json* ./
 
 # Устанавливаем зависимости
 RUN npm install
@@ -19,15 +19,15 @@ RUN npm run build
 # Создаем образ для запуска
 FROM node:lts AS production
 
-# Устанавливаем переменные окружения
-ENV HOST=0.0.0.0
-ENV PORT=3000
-
-# Устанавливаем рабочую директорию
+# Создаем рабочую директорию
 WORKDIR /app
 
 # Копируем собранное приложение из предыдущего этапа
 COPY --from=build /app/build /app/build
+
+# Устанавливаем переменные окружения
+ENV HOST=0.0.0.0
+ENV PORT=3000
 
 # Указываем порт, на котором будет работать приложение
 EXPOSE 3000
