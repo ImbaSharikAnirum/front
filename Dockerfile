@@ -25,6 +25,9 @@ WORKDIR /app
 # Копируем папку сборки из предыдущего этапа
 COPY --from=build /app/build ./build
 
+# Копируем package.json для глобальной установки serve
+COPY --from=build /app/package.json ./
+
 # Устанавливаем serve для обслуживания статических файлов
 RUN npm install -g serve
 
