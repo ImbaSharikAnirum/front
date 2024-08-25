@@ -1,39 +1,27 @@
-# Используем официальный образ Node.js в качестве базового
+# Base image
 FROM node:lts AS build
 
-# Создаем рабочую директорию
+# Create app directory
 WORKDIR /app
 
-# Копируем package.json и package-lock.json (если есть)
-COPY package.json package-lock.json* ./
-
-# Устанавливаем зависимости
+# Install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Копируем остальной исходный код в рабочую директорию
+# Copy the rest of the application code
 COPY . .
 
-# Собираем приложение
+# Build the app
 RUN npm run build
 
-# Создаем образ для запуска
-FROM node:lts AS production
+# Serve the app
+FROM nginx:alpine
 
-# Создаем рабочую директорию
-WORKDIR /app
+# Copy the build output from the previous stage
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Копируем собранное приложение из предыдущего этапа
-COPY --from=build /app/build /app/build
+# Expose port 80
+EXPOSE 80
 
-# Устанавливаем переменные окружения
-ENV HOST=0.0.0.0
-ENV PORT=3000
-
-# Указываем порт, на котором будет работать приложение
-EXPOSE 3000
-
-# Устанавливаем зависимости для сервера (если требуется)
-RUN npm install -g serve
-
-# Запускаем приложение
-CMD ["serve", "-s", "build", "-l", "3000"]
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
